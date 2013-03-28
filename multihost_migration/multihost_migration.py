@@ -16,11 +16,11 @@ def generate_mac_address():
 
 
 class Machines(object):
-        def __init__(self, host):
-            self.host = host
-            self.at = None
-            self.params = None
-            self.control = None
+    def __init__(self, host):
+        self.host = host
+        self.at = None
+        self.params = None
+        self.control = None
 
 
 class multihost_migration(test.test):
