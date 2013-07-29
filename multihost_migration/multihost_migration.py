@@ -32,7 +32,7 @@ class multihost_migration(test.test):
         AUTOTEST_DIR = self.job.clientdir
 
         VIRT_DIR = os.path.join(AUTOTEST_DIR, 'tests', 'virt')
-        TEST_DIR = os.path.join(VIRT_DIR, 'tests')
+        TEST_DIR = os.path.join(VIRT_DIR, 'qemu')
         SHARED_DIR = os.path.join(VIRT_DIR, 'shared')
         VIRT_TYPE = 'qemu'
 
@@ -92,7 +92,6 @@ sys.path.append(qemu_test_dir)
 
             params['hosts'] = ips
 
-            params['not_preprocess'] = "yes"
             for vm in params.get("vms").split():
                 for nic in params.get('nics', "").split():
                     params['mac_%s_%s' % (nic, vm)] = generate_mac_address()
@@ -108,6 +107,7 @@ sys.path.append(qemu_test_dir)
             for host_id, machine in enumerate(machines[1:]):
                 host = _hosts[machine]
                 host.params = params.object_params("host%s" % (host_id + 2))
+                params['not_preprocess'] = "yes"
                 host.params['clone_master'] = "no"
                 host.params['hostid'] = machine
 
