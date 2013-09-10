@@ -1,6 +1,7 @@
 from autotest.server import autotest_remote, hosts, subcommand, test
 from autotest.server import utils
 
+
 class netperf2(test.test):
     version = 2
 
@@ -17,7 +18,6 @@ class netperf2(test.test):
         platform_label = client.get_platform_label()
         if platform_label == server_label:
             (server, client) = (client, server)
-
 
         # Disable IPFilters if they are enabled.
         for m in [client, server]:
@@ -39,9 +39,9 @@ class netperf2(test.test):
                                           time, stream_list, test, cycles)
 
         server_command = subcommand.subcommand(server_at.run,
-                                    [server_control_file, server.hostname])
+                                               [server_control_file, server.hostname])
         client_command = subcommand.subcommand(client_at.run,
-                                    [client_control_file, client.hostname])
+                                               [client_control_file, client.hostname])
 
         subcommand.parallel([server_command, client_command])
 

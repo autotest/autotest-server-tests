@@ -1,4 +1,8 @@
-import sys, os, commands, logging, random
+import sys
+import os
+import commands
+import logging
+import random
 from autotest.server import autotest_remote, hosts, subcommand, test
 from autotest.client.shared import error
 # pylint: disable=E0611
@@ -18,6 +22,7 @@ def generate_mac_address():
 
 
 class Machines(object):
+
     def __init__(self, host):
         self.host = host
         self.at = None
@@ -40,7 +45,6 @@ class multihost_migration(test.test):
         bootstrap.create_subtests_cfg(VIRT_TYPE)
 
         sys.path.insert(0, VIRT_DIR)
-
 
         CONTROL_MAIN_PART = """
 testname = "virt"
@@ -137,7 +141,7 @@ sys.path.append(qemu_test_dir)
             for machine in machines:
                 host = _hosts[machine]
                 commands.append(subcommand.subcommand(host.at.run,
-                                           [host.control, host.host.hostname]))
+                                                      [host.control, host.host.hostname]))
 
             try:
                 subcommand.parallel(commands)

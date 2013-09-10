@@ -1,6 +1,7 @@
 from autotest.server import autotest_remote, hosts, subcommand, test
 from autotest.server import utils
 
+
 class netpipe(test.test):
     version = 2
 
@@ -38,9 +39,9 @@ class netpipe(test.test):
                                           buffer, upper_bound, variance)
 
         server_command = subcommand.subcommand(server_at.run,
-                                    [server_control_file, server.hostname])
+                                               [server_control_file, server.hostname])
         client_command = subcommand.subcommand(client_at.run,
-                                    [client_control_file, client.hostname])
+                                               [client_control_file, client.hostname])
 
         subcommand.parallel([server_command, client_command])
 

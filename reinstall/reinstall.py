@@ -2,6 +2,7 @@ import time
 from autotest.server import test
 from autotest.client.shared import error
 
+
 class reinstall(test.test):
     version = 1
 

@@ -1,6 +1,7 @@
 from autotest.server import test
 from autotest.client.shared import error
 
+
 class verify_test(test.test):
     version = 1
 
