@@ -9,6 +9,7 @@ from autotest.client.shared import error
 from autotest.client.tests.virt.virttest import utils_misc, cartesian_config
 # pylint: disable=E0611
 from autotest.client.tests.virt.virttest import bootstrap, utils_params
+from autotest.client.tests.virt.virttest import data_dir
 
 
 def generate_mac_address():
@@ -34,15 +35,17 @@ class multihost_migration(test.test):
     version = 2
 
     def run_once(self, machines, extra_params, cycles):
-        AUTOTEST_DIR = self.job.clientdir
-
-        VIRT_DIR = os.path.join(AUTOTEST_DIR, 'tests', 'virt')
-        TEST_DIR = os.path.join(VIRT_DIR, 'qemu')
-        SHARED_DIR = os.path.join(VIRT_DIR, 'shared')
         VIRT_TYPE = 'qemu'
+        VIRT_DIR = data_dir.get_root_dir()
+        TEST_DIR = data_dir.get_backend_dir(VIRT_TYPE)
+        PROV_DIR = data_dir.get_test_provider_dir('io-github-autotest-qemu')
+        SHARED_DIR = os.path.join(VIRT_DIR, 'shared')
+        PROV_DIR = os.path.join(PROV_DIR, VIRT_TYPE)
 
         bootstrap.create_config_files(TEST_DIR, SHARED_DIR, interactive=False)
+        bootstrap.create_config_files(TEST_DIR, PROV_DIR, interactive=False)
         bootstrap.create_subtests_cfg(VIRT_TYPE)
+        bootstrap.create_guest_os_cfg(VIRT_TYPE)
 
         sys.path.insert(0, VIRT_DIR)
 
@@ -63,7 +66,7 @@ sys.path.append(qemu_test_dir)
         for host in _hosts.itervalues():
             host.at = autotest_remote.Autotest(host.host)
 
-        cfg_file = os.path.join(VIRT_DIR, "qemu", "cfg", "multi-host-tests.cfg")
+        cfg_file = os.path.join(TEST_DIR, "cfg", "multi-host-tests.cfg")
 
         if not os.path.exists(cfg_file):
             raise error.JobError("Config file %s was not found", cfg_file)
