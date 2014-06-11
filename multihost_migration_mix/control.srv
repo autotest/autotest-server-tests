@@ -1,0 +1,86 @@
+AUTHOR = "ypu@redhat.com (Yiqiao Pu)"
+TIME = "MEDIUM"
+NAME = "Multi_host migration"
+TEST_CATEGORY = "Virtualization"
+TEST_CLASS = 'Multihost Migration'
+TEST_TYPE = "Server"
+SYNC_COUNT = 2
+DOC = """
+Multihost_migration_mix tests multihost migration and other test cases from
+virt-test. It can support run random test cases from a test case list mix with
+multihost migration in a random order.
+
+List of tests will be described in backends/qemu/cfg/subtests.cfg
+
+Environment for test:
+Storage:
+  Both quest have to have acces to same shared diskplace where are images of
+  migrated guests placed. (NFS, ...)
+Network client hosts:
+  Both machine on which are migration tests started have to be in same network.
+Netowrk client guests:
+  For some test are necessary join guest to same network. (bridge connected
+  directly to network).
+
+EXTRA_PARAMS:
+  adds extra params to client part of autotest. It is possible use this Extra
+  params for closer specific of running test.
+  example:
+  EXTRA_PARAMS = ""\"
+  only pc.migrate_multi_host..ping-pong-stress.cpu_memory..tcp
+  ""\"
+    start migrate_multi_host only ping-pong-stress test wirh
+    cpu and memory load.
+"""
+
+from autotest.server import utils
+import random
+import sys
+
+EXTRA_PARAMS = """
+"""
+REPEAT_NUM = 20
+CASES = ["migrate_multi_host"]
+FIXED_CASES = []
+PREPARE_CASES = ["unattended_install.cdrom.extra_cdrom_ks.default_install.aio_native"]
+
+def run(machines):
+    repeat_num = REPEAT_NUM
+    cases = CASES
+    run_cases = cases + FIXED_CASES
+    pre_cases = PREPARE_CASES
+    case_extra_params = {"migrate_multi_host": "need_multi_host = yes;;vm_migrated = yes"}
+
+
+    # Generate a random order case list
+    seed = random.randint(0, sys.maxint)
+    my_random = random.Random(seed)
+
+    for r_case in range(len(run_cases), repeat_num):
+        run_cases.append(my_random.choice(cases))
+
+    random.shuffle(run_cases)
+
+    if pre_cases:
+        for index, p_case in enumerate(pre_cases):
+            run_cases.insert(index, p_case)
+
+    # Generate extra_params based on the case list
+    extra_params = EXTRA_PARAMS + "variants:\n"
+    extra_params_template = "    - repeat%s:\n        only %s\n"
+    for index, case in enumerate(run_cases):
+        extra_params += extra_params_template % (index + 1, case)
+        if case in case_extra_params:
+            for param in case_extra_params[case].split(";;"):
+                extra_params += "        %s\n" % param
+        # Expect the prepare case will shutdown guest.
+        # So need to make sure the case after that start vm.
+        if index == len(pre_cases):
+            extra_params += "        not_preprocess_host1 = no\n"
+
+    logging.debug("Extra params generated:\n%s" % extra_params)
+
+    job.run_test('multihost_migration_mix', machines=machines,
+                 extra_params=extra_params, cycles=1)
+
+run(machines)
