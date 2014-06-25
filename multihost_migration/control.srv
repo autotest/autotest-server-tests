@@ -8,9 +8,19 @@ SYNC_COUNT = 2
 DOC = """
 Multihost_migration tests multihost migration with different configuration.
 
-List of test are described in /client/tests/virt/cfg/subtest.cfg.sample.
+After you run the bootstrap procedures described in:
+
+http://virt-test.readthedocs.org/en/latest/advanced/MultiHostMigration.html
+
+With the change to test providers, you can check the available tests in:
+
+client/tests/virt/test-providers.d/downloads/io-github-autotest-qemu/qemu/cfg/multi-host-tests.cfg
+
+Remember: The file above will not be generated if you do not run the
+bootstrap described in the link.
 
 Environment for test:
+
 Storage:
   Both quest have to have acces to same shared diskplace vhere are images of
   migrated guests placed. (NFS, ...)
@@ -24,11 +34,13 @@ EXTRA_PARAMS:
   adds extra params to client part of autotest. It is possible use this Extra
   params for closer specific of running test.
   example:
-  EXTRA_PARAMS = ""\"
-  only pc.migrate_multi_host..ping-pong-stress.cpu_memory..tcp
-  ""\"
-    start migrate_multi_host only ping-pong-stress test wirh
-    cpu and memory load.
+
+EXTRA_PARAMS = '''
+only pc.migrate_multi_host..ping-pong-stress.cpu_memory..tcp
+'''
+
+This should filter the complete list and run only ping-pong-stress tests
+with cpu and memory load.
 """
 
 from autotest.server import utils
