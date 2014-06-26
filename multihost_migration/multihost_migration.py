@@ -153,8 +153,12 @@ sys.path.append(qemu_test_dir)
 
             for machine in machines:
                 host = _hosts[machine]
+                result_path = os.path.join(self.resultsdir,
+                                           host.params["shortname"],
+                                           host.host.hostname)
                 commands.append(subcommand.subcommand(host.at.run,
-                                                      [host.control, host.host.hostname]))
+                                                      [host.control,
+                                                       result_path]))
 
             try:
                 subcommand.parallel(commands)
