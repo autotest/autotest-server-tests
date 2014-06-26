@@ -119,14 +119,14 @@ sys.path.append(qemu_test_dir)
             s_host = _hosts[machines[0]]
             s_host.params = params.object_params("host1")
             s_host.params['clone_master'] = "yes"
-            s_host.params['hostid'] = machines[0]
+            s_host.params['hostid'] = ips[0]
 
             for host_id, machine in enumerate(machines[1:]):
                 host = _hosts[machine]
                 host.params = params.object_params("host%s" % (host_id + 2))
                 params['not_preprocess'] = "yes"
                 host.params['clone_master'] = "no"
-                host.params['hostid'] = machine
+                host.params['hostid'] = ips[host_id + 1]
 
             # Report the parameters we've received
             logging.debug("Test parameters:")
