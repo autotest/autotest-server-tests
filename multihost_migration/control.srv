@@ -34,6 +34,32 @@ EXTRA_PARAMS:
 from autotest.server import utils
 
 EXTRA_PARAMS = """
+    qemu_binary = /usr/bin/qemu-kvm
+    qemu_img_binary = /usr/bin/qemu-img
+    qemu_io_binary = /usr/bin/qemu-io
+    nic_mode = tap
+    only qcow2
+    only virtio_net
+    only virtio_blk
+    only smp2
+    only no_pci_assignable
+    only no_9p_export
+    only smallpages
+    only pc
+    cpu_model = "core2duo"
+    cpu_model_flags = ",+sse3"
+    only (image_backend=filesystem)
+    only i440fx
+    mem = 512
+
+    only (vhost_settings=vhost_src_no_dst_no)
+    only (mig_protocol=tcp)
+    only (booting_phase=after_login_vm)
+    only (migraiton_type=mig_online)
+    #only (multihost_mig_tests=default), (multihost_mig_tests=speed)
+    #only (multihost_mig_tests=default)
+    only migrate_multi_host
+    #only RHEL.6.4.x86_64
 """
 
 def run(machines):
