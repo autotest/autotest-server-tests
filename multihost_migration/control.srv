@@ -78,4 +78,4 @@ else:
         job.record("FAIL", failure[0], "kvm", failure[1])
 
     # Now run through each pair and run
-job.parallel_simple(run, pairs, log=False)
+    job.parallel_simple(run, pairs, log=False)
