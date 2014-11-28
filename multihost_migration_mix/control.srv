@@ -1,6 +1,6 @@
 AUTHOR = "ypu@redhat.com (Yiqiao Pu)"
 TIME = "MEDIUM"
-NAME = "Multi_host migration"
+NAME = "Multi_host migration with other cases"
 TEST_CATEGORY = "Virtualization"
 TEST_CLASS = 'Multihost Migration'
 TEST_TYPE = "Server"
