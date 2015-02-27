@@ -156,7 +156,7 @@ sys.path.append(qemu_test_dir)
                                      (host.params['shortname'], host.params))
 
                 logging.debug('Master control file:\n%s',
-                               _hosts[machine_hold_vm].control)
+                              _hosts[machine_hold_vm].control)
                 for machine in machines:
                     if machine != machine_hold_vm:
                         host = _hosts[machine]
