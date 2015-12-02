@@ -1,13 +1,12 @@
 import sys
 import os
-import commands
 import logging
 import random
 import shutil
 from autotest.server import autotest_remote, hosts, subcommand, test
 from autotest.client.shared import error
 # pylint: disable=E0611
-from autotest.client.tests.virt.virttest import utils_misc, cartesian_config
+from autotest.client.tests.virt.virttest import cartesian_config
 # pylint: disable=E0611
 from autotest.client.tests.virt.virttest import bootstrap, utils_params
 from autotest.client.tests.virt.virttest import data_dir, asset

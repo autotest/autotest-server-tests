@@ -1,5 +1,4 @@
 from autotest.server import autotest_remote, hosts, subcommand, test
-from autotest.server import utils
 
 
 class netpipe(test.test):
