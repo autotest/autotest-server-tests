@@ -1,4 +1,3 @@
-import time
 from autotest.server import test
 from autotest.client.shared import error
 
